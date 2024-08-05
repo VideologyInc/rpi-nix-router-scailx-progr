@@ -51,7 +51,6 @@
       fzf
       wget
       python3
-      iper3
       curl
       jq
       docker-compose
