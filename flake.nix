@@ -7,10 +7,10 @@
   };
   outputs = { self, nixos-generators, nixpkgs, ... }@inputs:
     let
-      ganix = import ./loader/from_envs.nix;
+      scailx_progr = import ./loader/from_envs.nix;
       flakeContext = {
         inherit inputs;
-        inherit ganix;
+        inherit scailx_progr;
       };
     in
     {

@@ -1,4 +1,4 @@
-{ inputs, ganix, ... }@flakeContext:
+{ inputs, scailx_progr, ... }@flakeContext:
 { config, lib, pkgs, ... }: {
   imports = [
     inputs.self.nixosModules.services
@@ -6,7 +6,7 @@
   ];
   config = {
     system = {
-      stateVersion = "23.05";
+      stateVersion = "24.05";
     };
 
     boot = {
@@ -22,7 +22,7 @@
         # NixOS wants to enable GRUB by default
         grub.enable = false;
         # raspberryPi.enable = true;
-        raspberryPi.version = ganix.raspberry_model;
+        raspberryPi.version = scailx_progr.raspberry_model;
         generic-extlinux-compatible.enable = true;
         # generic-extlinux-compatible.populateCmd = lib.mkForce {};
       };
@@ -36,7 +36,7 @@
 
     };
     # Time
-    time.timeZone = ganix.timezone;
+    time.timeZone = scailx_progr.timezone;
 
     # Man
     documentation = {
@@ -46,13 +46,14 @@
     # System packages
     environment.systemPackages = with pkgs; [
       libraspberrypi
-      vim
+      nano
       git
+      fzf
       wget
       jq
       docker-compose
       bat # cat
-      # exa # ls
+      exa # ls
       # ripgrep # grep
       # fd # find
       # procs # ps
@@ -79,7 +80,7 @@
     };
 
     networking = {
-      hostName = ganix.hostname;
+      hostName = scailx_progr.hostname;
       firewall.enable = false;
       interfaces.wlan0 = {
         useDHCP = true;
@@ -91,11 +92,11 @@
       };
 
       wireless = {
-        enable = ganix.wifi_enabled;
+        enable = scailx_progr.wifi_enabled;
         interfaces = [ "wlan0" ];
         networks = {
-          "${ganix.wifi_network_name}" = {
-            pskRaw = "${ganix.wifi_network_psk}";
+          "${scailx_progr.wifi_network_name}" = {
+            pskRaw = "${scailx_progr.wifi_network_psk}";
           };
         };
 
@@ -107,7 +108,7 @@
     };
 
     sdImage.compressImage = false;
-    sdImage.imageName = "${config.sdImage.imageBaseName}-${ganix.hostname}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}.img";
+    sdImage.imageName = "${config.sdImage.imageBaseName}-${scailx_progr.hostname}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}.img";
 
     i18n = {
       defaultLocale = "en_US.UTF-8";
