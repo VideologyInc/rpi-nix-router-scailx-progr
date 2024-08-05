@@ -50,14 +50,17 @@
       git
       fzf
       wget
+      python3
+      iper3
+      curl
       jq
       docker-compose
       bat # cat
       exa # ls
-      # ripgrep # grep
-      # fd # find
-      # procs # ps
-      # sd # sed
+      ripgrep # grep
+      fd # find
+      procs # ps
+      sd # sed
       # du-dust # du
       # bandwhich
       xh # http
@@ -81,11 +84,12 @@
 
     networking = {
       hostName = scailx_progr.hostname;
+      usePredictableInterfaceNames = true;
       firewall.enable = false;
       interfaces.wlan0 = {
         useDHCP = true;
         # ipv4.addresses = [{
-        #   # I used static IP over WLAN because I want to use it as local DNS resolver
+        #   # Can use static IP over WLAN if you want to use it as local DNS resolver
         #   address = "192.168.100.4";
         #   prefixLength = 24;
         # }];
@@ -99,12 +103,10 @@
             pskRaw = "${scailx_progr.wifi_network_psk}";
           };
         };
-
       };
 
       # Enable eth0 later
-      # interfaces.eth0.useDHCP = true;
-      # useDHCP = false;
+      interfaces.eth0.useDHCP = true;
     };
 
     sdImage.compressImage = false;
@@ -117,6 +119,12 @@
     # Nix
     nix = {
       package = pkgs.nixUnstable;
+      settings.auto-optimise-store = true;
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 30d";
+      };
       extraOptions = ''
         experimental-features = nix-command flakes
         keep-outputs = true
