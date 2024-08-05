@@ -1,10 +1,10 @@
 {
-  hostname = rpi_progr;
-  username = rpi;
+  hostname = null;
+  username = null;
   timezone = null;
-  raspberry_model = 4;
-  ssh_key = [scailx-dev];
-  wifi_enabled = true;
-  wifi_network_name = "WLAN-PUB";
+  raspberry_model = null;
+  ssh_key = null;
+  wifi_enabled = null;
+  wifi_network_name = null;
   wifi_network_psk = null;
 }
